@@ -21,15 +21,7 @@ class PedidoItens extends BaseEntity
     public int $id_pedido;
     public int $id_item_cardapio;
     public string $observacoes;
-
-    public array $relations = [
-        'id_item_cardapio' => [
-            'item' => [
-                'entity' => Cardapio::class,
-                'column' => 'id'
-            ]
-        ]
-    ];
+    public string $total;
 
     private function __construct()
     {

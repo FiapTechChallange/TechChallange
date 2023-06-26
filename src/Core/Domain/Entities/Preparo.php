@@ -21,7 +21,7 @@ class Preparo extends BaseEntity
     public int $id;
     public int $id_pedido;
     public DateTime $inicio;
-    public DateTime $termino;
+    public ?DateTime $termino;
 
     private function __construct()
     {

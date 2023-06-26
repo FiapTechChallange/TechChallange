@@ -37,6 +37,26 @@ class PedidoItensRepository implements IPedidoItensRepository
 
     public function list(): PedidoItens
     {
-        return $this->entity->list();
+        $pedidoItens = $this->entity->list();
+
+        $collection = [];
+        $total = 0;
+        foreach($pedidoItens->collection as $item){
+            $itemCollection = $item;
+            $cardapio = (new CardapioRepository())->show($item['id_item_cardapio']);
+            $itemCollection['item_cardapio'] = [
+                'id' => $cardapio->id,
+                'nome' => $cardapio->nome,
+                'descricao' => $cardapio->descricao,
+                'categoria' => $cardapio->categoria,
+                'valor' => $cardapio->valor
+            ];
+            $collection[] = $itemCollection;
+            $total += $cardapio->valor;
+        }
+        $pedidoItens->collection = $collection;
+        $pedidoItens->total = $total;
+
+        return $pedidoItens;
     }
 }

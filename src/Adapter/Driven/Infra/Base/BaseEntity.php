@@ -122,13 +122,6 @@ class BaseEntity
                 }
             }
 
-//            foreach($this->relations as $key => $relations){
-//                foreach($relations as $relation => $foreign ){
-//                    $model = $foreign['entity']::model();
-//                    $this->$relation = $model->list($foreign['column'],$this->$key);
-//                }
-//            }
-
             $this->statusCode = 200;
             $this->statusMsg = 'success';
         } catch (\PDOException $e) {
@@ -142,25 +135,12 @@ class BaseEntity
     public function list($column = null, $value = null)
     {
         try {
-            $where = !is_null($column) && !is_null($value)?$column.'='.$value:'';
+            $where = !is_null($column) && !is_null($value)?' WHERE '.$column.'='.$value:'';
             $sql = "SELECT * FROM {$this->table} {$where}";
             $stmt = $this->connection->prepare($sql);
 
             $stmt->execute();
-            $list = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-//            if(!empty($this->relations)){
-//                foreach ($list as $row){
-//                    foreach($this->relations as $key => $relations){
-//                        foreach($relations as $relation => $foreign ){
-//                            $model = $foreign['entity']::model();
-//                            $row[$relation] = $model->list($foreign['column'],$row[$key]);
-//                        }
-//                    }
-//                }
-//            }
-
-            $this->collection = $list;
+            $this->collection = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $this->statusCode = 200;
             $this->statusMsg = 'success';

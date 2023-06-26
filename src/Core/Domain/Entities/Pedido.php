@@ -20,31 +20,13 @@ class Pedido extends BaseEntity
     ];
 
     public int $id;
-    public int $id_cliente;
+    public ?int $id_cliente;
     public ?DateTime $fechamento;
     public ?DateTime $pagamento;
     public string $status;
-    public PedidoItens $itens;
-    public Preparo $preparo;
-    public Clientes $cliente;
-    public array $relations = [
-        'id' => [
-            'itens' => [
-                'entity' => PedidoItens::class,
-                'column' => 'id_pedido'
-            ],
-            'preparo' => [
-                'entity' => Preparo::class,
-                'column' => 'id_pedido'
-            ]
-        ],
-        'id_cliente' => [
-            'cliente' => [
-                'entity' => Clientes::class,
-                'column' => 'id'
-            ]
-        ]
-    ];
+    public ?PedidoItens $itens;
+    public ?Preparo $preparo;
+    public ?Clientes $cliente;
 
     private function __construct()
     {

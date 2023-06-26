@@ -3,6 +3,7 @@
 namespace App\Adapter\Driven\Infra\Repository;
 
 use App\Core\Domain\Entities\Pedido;
+use App\Core\Domain\Entities\PedidoItens;
 use App\Core\Domain\Repositories\IPedidoRepository;
 
 class PedidoRepository implements IPedidoRepository
@@ -33,7 +34,12 @@ class PedidoRepository implements IPedidoRepository
 
     public function show(int $id): Pedido
     {
-        return $this->entity->show($id);
+        $pedido = $this->entity->show($id);
+        $pedido->itens = (new PedidoItensRepository())->list('id_pedido', $pedido->id);
+        $pedido->cliente = $pedido->id_cliente?(new ClientesRepository())->show($pedido->id_cliente):null;
+        $pedido->preparo = (new PreparoRepository())->list('id_pedido', $pedido->id);
+
+        return $pedido;
     }
 
     public function list(): Pedido

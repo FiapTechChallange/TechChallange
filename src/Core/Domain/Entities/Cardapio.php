@@ -14,13 +14,15 @@ class Cardapio extends BaseEntity
         'id',
         'nome',
         'descricao',
-        'categoria'
+        'categoria',
+        'valor'
     ];
 
     public int $id;
     public string $nome;
     public string $descricao;
     public string $categoria;
+    public float $valor;
 
     private function __construct()
     {
