@@ -11,13 +11,13 @@ class Clientes extends BaseEntity
 
     protected static String $table = 'clientes';
     protected static array $columns = [
-        'id',
+        'cpf',
         'nome',
         'email',
         'telefone'
     ];
 
-    public int $id;
+    public string $cpf;
     public string $nome;
     public string $email;
     public string $telefone;

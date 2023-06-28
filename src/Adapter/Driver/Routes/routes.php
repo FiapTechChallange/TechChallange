@@ -3,6 +3,7 @@
 namespace App\Adapter\Driver\Routes;
 
 use App\Adapter\Driver\Api\Controllers\CardapioController;
+use App\Adapter\Driver\Api\Controllers\CategoriaController;
 use App\Adapter\Driver\Api\Controllers\ClientesController;
 use App\Adapter\Driver\Api\Controllers\PedidoController;
 use App\Adapter\Driver\Api\Controllers\PedidoItensController;
@@ -127,6 +128,28 @@ $routes['/cardapio/{id}'] = [
     },
     'GET' => function ($id) {
         return BaseController::show(CardapioController::class, $id);
+    }
+];
+
+// Categoria
+$routes['/categoria'] = [
+    'POST' => function ($params = null) use ($data) {
+        return BaseController::create(CategoriaController::class, $data);
+    },
+    'GET' => function ($params = null) {
+        return BaseController::list(CategoriaController::class);
+    }
+];
+
+$routes['/categoria/{id}'] = [
+    'PUT' => function ($id) use ($data) {
+        return BaseController::update(CategoriaController::class, $id, $data);
+    },
+    'DELETE' => function ($id) {
+        return BaseController::delete(CategoriaController::class, $id);
+    },
+    'GET' => function ($id) {
+        return BaseController::show(CategoriaController::class, $id);
     }
 ];
 

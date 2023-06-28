@@ -33,11 +33,18 @@ class CardapioRepository implements ICardapioRepository
 
     public function show(int $id): Cardapio
     {
-        return $this->entity->show($id);
+        $cardapio = $this->entity->show($id);
+        $cardapio->categoria = (new CategoriaRepository())->show($cardapio->id_categoria);
+        return $cardapio;
     }
 
     public function list(): Cardapio
     {
         return $this->entity->list();
+    }
+
+    public function listByCategoria(int $id_categoria)
+    {
+        return $this->entity->list('id_categoria', $id_categoria);
     }
 }
