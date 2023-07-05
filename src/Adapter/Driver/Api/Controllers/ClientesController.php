@@ -42,5 +42,10 @@ class ClientesController
         return json_encode($this->useCase->list());
     }
 
+    public function showByCpf($cpf)
+    {
+        return json_encode($this->useCase->showByCpf($cpf));
+    }
+
 
 }

@@ -43,4 +43,10 @@ class ClientesUseCase implements IClientesUseCase
     {
         return $this->repository->list();
     }
+
+    public function showByCpf(string $cpf): Clientes
+    {
+        return $this->repository->list('cpf', $cpf);
+
+    }
 }

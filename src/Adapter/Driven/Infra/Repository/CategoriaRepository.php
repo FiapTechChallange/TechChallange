@@ -35,7 +35,12 @@ class CategoriaRepository implements ICategoriaRepository
 
     public function show(int $id): Categoria
     {
-        return $this->entity->show($id);
+        $categoria = $this->entity->show($id);
+        $itensCardapio = (new CardapioRepository())->listByCategoria($id);
+        if(!empty($itensCardapio->collection)) {
+            $categoria->itensCardapio = $itensCardapio->collection;
+        }
+        return $categoria;
     }
 
     public function list(): Categoria

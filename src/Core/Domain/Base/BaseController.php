@@ -27,9 +27,14 @@ class BaseController
         return (self::BuildControllers($controller))->show($id);
     }
 
-    public static function list($controller)
+    public static function list($controller, $params = null)
     {
-        return (self::BuildControllers($controller))->list();
+        return (self::BuildControllers($controller))->list($params);
+    }
+
+    public static function query($controller, $params, $method)
+    {
+        return (self::BuildControllers($controller))->$method($params);
     }
 
     public static function BuildControllers($controller)

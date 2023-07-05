@@ -18,6 +18,8 @@ class Categoria extends BaseEntity
     public int $id;
     public string $nome;
 
+    public array $itensCardapio;
+
     private function __construct()
     {
         parent::__construct(self::$table, self::$columns);

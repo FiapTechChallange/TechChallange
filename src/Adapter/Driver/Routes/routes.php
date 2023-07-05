@@ -28,7 +28,7 @@ $routes['/clientes'] = [
         return BaseController::create(ClientesController::class, $data);
     },
     'GET' => function ($params = null) {
-        return BaseController::list(ClientesController::class);
+        return BaseController::list(ClientesController::class, $params);
     }
 ];
 
@@ -41,6 +41,12 @@ $routes['/clientes/{id}'] = [
     },
     'GET' => function ($id) {
         return BaseController::show(ClientesController::class, $id);
+    }
+];
+
+$routes['/clientes/cpf/{cpf}'] = [
+    'GET' => function ($cpf) {
+        return BaseController::query(ClientesController::class, $cpf, 'showByCpf');
     }
 ];
 

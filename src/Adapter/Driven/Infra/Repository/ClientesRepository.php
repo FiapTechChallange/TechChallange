@@ -39,8 +39,8 @@ class ClientesRepository implements IClientesRepository
         return $this->entity->show($id);
     }
 
-    public function list(): Clientes
+    public function list($column = null, $value = null): Clientes
     {
-        return $this->entity->list();
+        return $this->entity->list($column, $value);
     }
 }

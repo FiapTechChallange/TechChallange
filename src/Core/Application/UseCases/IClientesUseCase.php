@@ -12,4 +12,6 @@ interface IClientesUseCase
     public function show(int $id): Clientes;
     public function list(): Clientes;
 
+    public function showByCpf(string $cpf): Clientes;
+
 }
