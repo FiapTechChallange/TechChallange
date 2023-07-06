@@ -22,7 +22,7 @@ class Cardapio extends BaseEntity
     public string $nome;
     public string $descricao;
     public int $id_categoria;
-    public Categoria $categoria;
+    public string $categoria;
     public float $valor;
 
     private function __construct()

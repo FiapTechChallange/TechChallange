@@ -3,6 +3,7 @@
 namespace App\Adapter\Driven\Infra\Repository;
 
 use App\Core\Domain\Entities\Cardapio;
+use App\Core\Domain\Entities\Categoria;
 use App\Core\Domain\Repositories\ICardapioRepository;
 
 class CardapioRepository implements ICardapioRepository
@@ -34,7 +35,8 @@ class CardapioRepository implements ICardapioRepository
     public function show(int $id): Cardapio
     {
         $cardapio = $this->entity->show($id);
-        $cardapio->categoria = (new CategoriaRepository())->show($cardapio->id_categoria);
+        $categoria = (Categoria::model())->show($cardapio->id_categoria);
+        $cardapio->categoria = $categoria->nome;
         return $cardapio;
     }
 
