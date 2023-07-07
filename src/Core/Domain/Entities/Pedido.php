@@ -21,8 +21,8 @@ class Pedido extends BaseEntity
 
     public int $id;
     public ?int $id_cliente;
-    public ?DateTime $fechamento;
-    public ?DateTime $pagamento;
+    public DateTime|string|null $fechamento;
+    public DateTime|string|null $pagamento;
     public string $status;
     public ?PedidoItens $itens;
     public ?Preparo $preparo;

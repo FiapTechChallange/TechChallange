@@ -11,5 +11,6 @@ interface IPedidoUseCase
     public function delete(int $id): Pedido;
     public function show(int $id): Pedido;
     public function list(): Pedido;
+    public function statusList(): array;
 
 }

@@ -39,5 +39,10 @@ class PedidoController
         return json_encode($this->useCase->list());
     }
 
+    public function statusList()
+    {
+        return json_encode($this->useCase->statusList());
+    }
+
 
 }

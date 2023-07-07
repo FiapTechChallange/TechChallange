@@ -72,6 +72,12 @@ $routes['/pedido/{id}'] = [
     }
 ];
 
+$routes['/pedido-status'] = [
+    'GET' => function ($params = null) {
+        return BaseController::query(PedidoController::class, [], 'statusList');
+    }
+];
+
 $routes['/pedido-itens'] = [
     'POST' => function ($params = null) use ($data) {
         return BaseController::create(PedidoItensController::class, $data);

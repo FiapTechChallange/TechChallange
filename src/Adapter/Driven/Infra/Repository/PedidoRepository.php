@@ -2,6 +2,7 @@
 
 namespace App\Adapter\Driven\Infra\Repository;
 
+use App\Core\Domain\Base\EnumStatus;
 use App\Core\Domain\Entities\Pedido;
 use App\Core\Domain\Entities\PedidoItens;
 use App\Core\Domain\Repositories\IPedidoRepository;
@@ -19,11 +20,31 @@ class PedidoRepository implements IPedidoRepository
 
     public function create(array $data): Pedido
     {
+        if(isset($data['status'])){
+            if(!array_key_exists($data['status'], EnumStatus::getList())){
+                if(!in_array($data['status'], EnumStatus::getList())){
+                    throw new \Exception("Status inválido");
+                } else {
+                    $data['status'] = array_search($data['status'] ,EnumStatus::getList());
+                }
+            }
+        }
+
         return $this->entity->create($data);
     }
 
     public function update(int $id, array $data): Pedido
     {
+        if(isset($data['status'])){
+            if(!array_key_exists($data['status'], EnumStatus::getList())){
+                if(!in_array($data['status'], EnumStatus::getList())){
+                    throw new \Exception("Status inválido");
+                } else {
+                    $data['status'] = array_search($data['status'] ,EnumStatus::getList());
+                }
+            }
+        }
+
         return $this->entity->update($id, $data);
     }
 

@@ -4,6 +4,7 @@ namespace App\Adapter\Driven\Infra\Base;
 
 
 use App\Adapter\Driven\Infra\Connection\Connect;
+use DateTime;
 use PDO;
 
 class BaseEntity

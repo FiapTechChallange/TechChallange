@@ -2,6 +2,7 @@
 
 namespace App\Adapter\Driven\Infra\Repository;
 
+use App\Core\Domain\Base\EnumStatus;
 use App\Core\Domain\Entities\Preparo;
 use App\Core\Domain\Repositories\IPreparoRepository;
 
@@ -18,12 +19,19 @@ class PreparoRepository implements IPreparoRepository
 
     public function create(array $data): Preparo
     {
-        return $this->entity->create($data);
+        $response = $this->entity->create($data);
+        (new PedidoRepository())->update($data['id_pedido'], ['status' => EnumStatus::EM_PREPARACAO]);
+
+        return $response;
     }
 
     public function update(int $id, array $data): Preparo
     {
-        return $this->entity->update($id, $data);
+        $response = $this->entity->update($id, $data);
+        if(!empty($data['termino'])){
+            (new PedidoRepository())->update($data['id_pedido'], ['status' => EnumStatus::PRONTO]);
+        }
+        return $response;
     }
 
     public function delete(int $id): Preparo

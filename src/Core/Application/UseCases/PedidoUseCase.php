@@ -2,6 +2,7 @@
 
 namespace App\Core\Application\UseCases;
 
+use App\Core\Domain\Base\EnumStatus;
 use App\Core\Domain\Entities\Pedido;
 use App\Core\Domain\Repositories\IPedidoRepository;
 
@@ -42,5 +43,10 @@ class PedidoUseCase implements IPedidoUseCase
     public function list(): Pedido
     {
         return $this->repository->list();
+    }
+
+    public function statusList(): array
+    {
+        return EnumStatus::getList();
     }
 }
