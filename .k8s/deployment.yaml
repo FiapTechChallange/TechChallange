@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tech-challange
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: tech-challange
+spec:
+  selector:
+    matchLabels:
+      app: api
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: tech-challange/api
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /healthcheck
+            port: 80
+          periodSeconds: 15
+          failureThreshold: 3
+          successThreshold: 1
+          initialDelaySeconds: 10
+          timeoutSeconds: 10
