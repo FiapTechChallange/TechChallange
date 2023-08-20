@@ -1,4 +1,4 @@
-# Fiap - Tech Challange - SOAT2 - Grupo 33
+# Fiap - Tech Challenge - SOAT2 - Grupo 33
 
 # DDD e Linguagem Ubíqua
 

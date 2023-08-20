@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api
-  namespace: tech-challange
+  namespace: tech-challenge
 spec:
   selector:
     matchLabels:
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: tech-challange/api
+        image: tech-challenge/api
         imagePullPolicy: Never
         ports:
         - containerPort: 80
