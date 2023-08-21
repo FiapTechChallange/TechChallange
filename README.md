@@ -25,6 +25,10 @@ Para criação dos container, execute o seguinte comando dentro do diretorio em 
 
     docker compose -f docker-compose.yml up -d
 
+## Kubernetes
+Iniciar cluster: <code>make start-kubernetes</code>
+Encerrar cluster: <code>make delete-namespace</code>
+
 
 # API
 
