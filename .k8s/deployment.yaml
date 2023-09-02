@@ -41,7 +41,7 @@ spec:
           - name: DB_PASSWORD
             value: password
           - name: DB_DSN
-            value: mysql:host=localhost;port=3306;dbname=FIAP_CHALLENGE;
+            value: mysql:host=database-service;port=3306;dbname=FIAP_CHALLENGE;
         livenessProbe:
           httpGet:
             path: /healthcheck
