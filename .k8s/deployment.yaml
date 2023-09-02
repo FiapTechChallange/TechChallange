@@ -1,3 +1,19 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: tech-challenge
+  name: api-pv-claim
+  labels:
+    app: database
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,6 +35,13 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 80
+        env:
+          - name: DB_USERNAME
+            value: user
+          - name: DB_PASSWORD
+            value: password
+          - name: DB_DSN
+            value: mysql:host=localhost;port=3306;dbname=FIAP_CHALLENGE;
         livenessProbe:
           httpGet:
             path: /healthcheck
@@ -28,3 +51,10 @@ spec:
           successThreshold: 1
           initialDelaySeconds: 10
           timeoutSeconds: 10
+        volumeMounts:
+        - name: api-persistent-storage
+          mountPath: /var/www/volume
+      volumes:
+      - name: api-persistent-storage
+        persistentVolumeClaim:
+          claimName: api-pv-claim
