@@ -14,6 +14,7 @@ $json = file_get_contents('php://input');
 $data = json_decode($json, true);
 
 $routes = [];
+header('Content-Type: application/json; charset=utf-8');
 
 // Home - Exibe o cardápio
 $routes['/'] = [
