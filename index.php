@@ -29,5 +29,6 @@ try {
     }
 
 } catch (\Exception $e) {
+    error_log($e);
     echo "{$e->getCode()} - {$e->getMessage()} - {$e->getFile()} - {$e->getLine()}";
 }

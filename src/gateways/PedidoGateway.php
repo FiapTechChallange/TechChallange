@@ -38,12 +38,11 @@ class PedidoGateway implements IPedidoGateway
     public function create(array $data): Pedido
     {
         if(isset($data['status'])){
-            if(!array_key_exists($data['status'], EnumStatus::getList())){
-                if(!in_array($data['status'], EnumStatus::getList())){
-                    throw new \Exception("Status inválido");
-                } else {
-                    $data['status'] = array_search($data['status'] ,EnumStatus::getList());
-                }
+            if(!array_key_exists($data['status']->name, EnumStatus::getList())){
+                throw new \Exception("Status inválido");
+            }
+            else {
+                $data['status'] = array_search($data['status'] ,EnumStatus::getList());
             }
         }
 
@@ -53,12 +52,11 @@ class PedidoGateway implements IPedidoGateway
     public function update(int $id, array $data): Pedido
     {
         if(isset($data['status'])){
-            if(!array_key_exists($data['status'], EnumStatus::getList())){
-                if(!in_array($data['status'], EnumStatus::getList())){
+            if(!array_key_exists($data['status']->name, EnumStatus::getList())){
                     throw new \Exception("Status inválido");
-                } else {
-                    $data['status'] = array_search($data['status'] ,EnumStatus::getList());
-                }
+            }
+            else {
+                $data['status'] = array_search($data['status'] ,EnumStatus::getList());
             }
         }
 
