@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Tempo de geração: 03/09/2023 às 19:56
+-- Tempo de geração: 03/09/2023 às 20:24
 -- Versão do servidor: 8.1.0
 -- Versão do PHP: 8.2.9
 
@@ -59,6 +59,19 @@ INSERT INTO `categoria` (`id`, `nome`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `checkout`
+--
+
+CREATE TABLE `checkout` (
+  `id` int NOT NULL,
+  `id_pedido` int NOT NULL,
+  `status` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'iniciado',
+  `gateway_pagamento` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `clientes`
 --
 
@@ -79,6 +92,7 @@ CREATE TABLE `clientes` (
 CREATE TABLE `pedido` (
   `id` int NOT NULL,
   `id_cliente` int DEFAULT NULL,
+  `recebimento` datetime DEFAULT CURRENT_TIMESTAMP,
   `fechamento` datetime DEFAULT NULL,
   `pagamento` datetime DEFAULT NULL,
   `status` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'iniciado'
@@ -128,6 +142,13 @@ ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices de tabela `checkout`
+--
+ALTER TABLE `checkout`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `checkout_pedido_id_fk` (`id_pedido`);
+
+--
 -- Índices de tabela `clientes`
 --
 ALTER TABLE `clientes`
@@ -171,6 +192,12 @@ ALTER TABLE `categoria`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de tabela `checkout`
+--
+ALTER TABLE `checkout`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
@@ -203,6 +230,12 @@ ALTER TABLE `preparo`
 --
 ALTER TABLE `cardapio`
   ADD CONSTRAINT `cardapio_categoria_id_fk` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`);
+
+--
+-- Restrições para tabelas `checkout`
+--
+ALTER TABLE `checkout`
+  ADD CONSTRAINT `checkout_pedido_id_fk` FOREIGN KEY (`id_pedido`) REFERENCES `pedido` (`id`);
 
 --
 -- Restrições para tabelas `pedido_itens`
