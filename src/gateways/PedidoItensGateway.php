@@ -52,9 +52,9 @@ class PedidoItensGateway implements IPedidoItensGateway
         return $this->entity->fill($this->repository->show($id));
     }
 
-    public function list(): array
+    public function list($column = null, $value = null): array
     {
-        $pedidoItens = $this->repository->list();
+        $pedidoItens = $this->repository->list($column, $value);
 
         $collection = [];
         $total = 0;
@@ -62,15 +62,17 @@ class PedidoItensGateway implements IPedidoItensGateway
             $itemCollection = $item;
             $cardapio = (new CardapioGateway($this->connection, $this->repository))->show($item['id_item_cardapio']);
             $itemCollection['item_cardapio'] = [
-                'id' => $cardapio['id'],
-                'nome' => $cardapio['nome'],
-                'descricao' => $cardapio['descricao'],
-                'categoria' => $cardapio['categoria'],
-                'valor' => $cardapio['valor']
+                'id' => $cardapio->id,
+                'nome' => $cardapio->nome,
+                'descricao' => $cardapio->descricao,
+                'categoria' => $cardapio->categoria,
+                'valor' => $cardapio->valor
             ];
-            $collection[] = (new PedidoItens())->fill($itemCollection);
+
+            $collection['itens'][] = (new PedidoItens())->fill($itemCollection);
             $total += $cardapio->valor;
         }
+        $collection['total'] = $total;
 
         return $collection;
     }

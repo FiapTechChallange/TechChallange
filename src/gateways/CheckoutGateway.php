@@ -38,7 +38,10 @@ class CheckoutGateway implements ICheckoutGateway
     public function create(array $data): Checkout
     {
         $response = $this->repository->create($data);
-        (new PedidoGateway($this->connection, $this->repository))->update($data['id_pedido'], ['status' => EnumStatus::AGUARDANDO_PAGAMENTO]);
+        (new PedidoGateway($this->connection, $this->repository))->update(
+            $data['id_pedido'],
+            ['status' => EnumStatus::AGUARDANDO_PAGAMENTO->name]
+        );
 
         return $this->entity->fill($response);
     }
@@ -48,9 +51,9 @@ class CheckoutGateway implements ICheckoutGateway
         $response = $this->repository->update($id, $data);
         if(!empty($data['status'])){
             if($data['status'] == EnumCheckout::APROVADO) {
-                (new PedidoGateway($this->connection, $this->repository))->update($data['id_pedido'], ['status' => EnumStatus::INCIADO]);
+                (new PedidoGateway($this->connection, $this->repository))->update($data['id_pedido'], ['status' => EnumStatus::INCIADO->name]);
             } elseif($data['status'] == EnumCheckout::RECUSADO){
-                (new PedidoGateway($this->connection, $this->repository))->update($data['id_pedido'], ['status' => EnumStatus::FINALIZADO]);
+                (new PedidoGateway($this->connection, $this->repository))->update($data['id_pedido'], ['status' => EnumStatus::FINALIZADO->name]);
             }
         }
         return $this->entity->fill($response);
