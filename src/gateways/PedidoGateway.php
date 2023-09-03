@@ -94,7 +94,7 @@ class PedidoGateway implements IPedidoGateway
     {
         $status = "'" . implode("','",[EnumStatus::PRONTO->name, EnumStatus::EM_PREPARACAO->name, EnumStatus::RECEBIDO->name]). "'";
         $sql = "SELECT * FROM pedido WHERE status IN({$status}) ";
-        $sql .= "ORDER BY recebimento, FIELD(status,{$status})";
+        $sql .= "ORDER BY FIELD(status,{$status}), recebimento ";
         $pedidos = [];
         foreach($this->repository->queryAll($sql) as $i => $pedido){
             $pedidoItems = (new PedidoItensGateway($this->connection, $this->repository))->list('id_pedido', $pedido['id']);
