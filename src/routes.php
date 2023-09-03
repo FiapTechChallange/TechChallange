@@ -17,7 +17,6 @@ $data = json_decode($json, true);
 $routes = [];
 $pdoConnection = (new PdoConnect())->connect();
 $fastFoodApp = new FastFoodApp($pdoConnection);
-header('Content-Type: application/json; charset=utf-8');
 
 // Home - Exibe o cardápio
 $routes['/'] = [
