@@ -39,6 +39,6 @@ class PedidoItensUseCase implements IPedidoItensUseCase
 
     public function list(): array
     {
-        return $this->gateway->list();
+        return $this->gateway->list()['itens'];
     }
 }

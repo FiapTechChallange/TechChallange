@@ -13,8 +13,8 @@ class Pedido extends Entity
     public DateTime|string|null $fechamento;
     public DateTime|string|null $pagamento;
     public string $status;
-    public ?PedidoItens $itens;
-    public ?Preparo $preparo;
+    public array|null $itens;
+    public array|null $preparo;
     public ?Clientes $cliente;
 
 }

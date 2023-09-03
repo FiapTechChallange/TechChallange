@@ -55,7 +55,7 @@ class CardapioGateway implements ICardapioGateway
         $cardapio = $this->repository->show($id);
         if(!empty($cardapio)) {
             $categoria = (new CategoriaGateway($this->connection, $this->repository))->show($cardapio['id_categoria']);
-            $cardapio['categoria'] = $categoria['nome'];
+            $cardapio['categoria'] = $categoria->nome;
         }
         return $this->entity->fill($cardapio);
     }
