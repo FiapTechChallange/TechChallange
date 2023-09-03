@@ -55,10 +55,9 @@ class ClientesGateway implements IClientesGateway
     public function list($column = null, $value = null): array
     {
         $response = [];
-        foreach($this->repository->list() as $row){
-            $response[] = $this->entity->fill($row);
+        foreach($this->repository->list($column, $value) as $row){
+            $response[] = (new Clientes())->fill($row);
         }
-
         return $response;
     }
 }

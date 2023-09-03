@@ -2,10 +2,6 @@
 
 namespace App\entities;
 
-use App\Adapter\Driven\Infra\Base\EntityFactory;
-use App\external\PdoRepository;
-use DateTime;
-
 class Preparo extends Entity
 {
 

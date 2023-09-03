@@ -18,7 +18,6 @@ class PdoConnection extends PDO
         if (is_null(self::$instance)){
             self::$instance = new static($dsn, $username, $password, $options);
         }
-
         return self::$instance;
     }
 }

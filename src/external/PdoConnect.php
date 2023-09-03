@@ -1,11 +1,11 @@
 <?php
 namespace App\external;
 
-use App\external\PdoConnection;
+use PDO;
 
 class PdoConnect
 {
-    public function __construct()
+    public function connect()
     {
         return PdoConnection::getInstance(
             $this->getDsn(),
@@ -32,6 +32,6 @@ class PdoConnect
 
     private function getOptions()
     {
-        return [];
+        return [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
     }
 }

@@ -53,8 +53,10 @@ class CardapioGateway implements ICardapioGateway
     public function show(int $id): Cardapio
     {
         $cardapio = $this->repository->show($id);
-        $categoria = (new CategoriaGateway($this->connection, $this->repository))->show($cardapio['id_categoria']);
-        $cardapio['categoria'] = $categoria['nome'];
+        if(!empty($cardapio)) {
+            $categoria = (new CategoriaGateway($this->connection, $this->repository))->show($cardapio['id_categoria']);
+            $cardapio['categoria'] = $categoria['nome'];
+        }
         return $this->entity->fill($cardapio);
     }
 
@@ -62,7 +64,7 @@ class CardapioGateway implements ICardapioGateway
     {
         $response = [];
         foreach($this->repository->list() as $row){
-            $response[] = $this->entity->fill($row);
+            $response[] = (new Cardapio())->fill($row);
         }
 
         return $response;

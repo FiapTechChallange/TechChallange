@@ -9,6 +9,7 @@ class Entity
         foreach($data as $att => $value){
             $this->$att = $value;
         }
+
         return $this;
     }
 

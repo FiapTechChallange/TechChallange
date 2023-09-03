@@ -64,7 +64,7 @@ class PreparoGateway implements IPreparoGateway
     {
         $response = [];
         foreach($this->repository->list() as $row){
-            $response[] = $this->entity->fill($row);
+            $response[] = (new Preparo())->fill($row);
         }
 
         return $response;

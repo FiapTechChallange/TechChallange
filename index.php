@@ -7,7 +7,7 @@ $dotenv->load();
 try {
     $requestUrl = $_SERVER['REQUEST_URI'];
     $method = $_SERVER['REQUEST_METHOD'];
-    $routes = include 'src/Adapter/Driver/Routes/routes.php'; // alterar o caminho
+    $routes = include 'src/routes.php';
 
     $matchedRoute = null;
     $matchedParams = [];

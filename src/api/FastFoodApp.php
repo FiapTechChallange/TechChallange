@@ -1,6 +1,8 @@
 <?php
 namespace App\api;
 
+use App\external\PdoRepository;
+
 class FastFoodApp
 {
     private array $controllers = [];
@@ -48,7 +50,8 @@ class FastFoodApp
         $name = rtrim(implode("",$parts),"\\");
 
         if(!array_key_exists($controller, $this->controllers)){
-            $gateway = new ('\App\gateways\\'.$name.'Gateway')($this->connection);
+            $repository = new PdoRepository();
+            $gateway = new ('\App\gateways\\'.$name.'Gateway')($this->connection, $repository);
             $useCase = new ('\App\usecases\\'.$name.'UseCase')($gateway);
 
             $this->controllers[$controller] = new $controller($useCase);

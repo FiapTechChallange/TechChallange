@@ -40,7 +40,7 @@ class PdoRepository implements IPdoRepository
 
         $stmt->execute();
 
-        $data['id'] = $stmt->lastInsertId();
+        $data['id'] = $this->connection->lastInsertId();
 
         return $data;
     }
@@ -88,14 +88,12 @@ class PdoRepository implements IPdoRepository
 
         $response = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (empty($response)) {
-            throw new \Exception("Consulta não retornou resultado", 400);
-        }
-
         $data = [];
-        foreach ($response as $column => $value) {
-            if (in_array($column, $this->columns)) {
-                $data[$column] = $value;
+        if($response) {
+            foreach ($response as $column => $value) {
+                if (in_array($column, $this->columns)) {
+                    $data[$column] = $value;
+                }
             }
         }
 
@@ -105,13 +103,36 @@ class PdoRepository implements IPdoRepository
     public function list($column = null, $value = null)
     {
 
-        $where = !is_null($column) && !is_null($value)?' WHERE '.$column.'='.$value:'';
+        $where = !is_null($column) && !is_null($value)?" WHERE {$column}='{$value}'":"";
         $sql = "SELECT * FROM {$this->table} {$where}";
+
         $stmt = $this->connection->prepare($sql);
 
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function queryAll(string $sql, array $bindins = [])
+    {
+        $stmt = $this->connection->prepare($sql);
+        foreach($bindins as $bindKey => $bindValue){
+            $stmt->bindValue($bindKey, $bindValue);
+        }
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function query(string $sql, array $bindins = [])
+    {
+        $stmt = $this->connection->prepare($sql);
+        foreach($bindins as $bindKey => $bindValue){
+            $stmt->bindValue($bindKey, $bindValue);
+        }
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
 }

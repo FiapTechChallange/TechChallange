@@ -47,4 +47,9 @@ class PedidoUseCase implements IPedidoUseCase
     {
         return EnumStatus::getList();
     }
+
+    public function pedidos(): array
+    {
+        return $this->gateway->pedidos();
+    }
 }

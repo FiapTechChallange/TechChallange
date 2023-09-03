@@ -68,7 +68,7 @@ class PedidoItensGateway implements IPedidoItensGateway
                 'categoria' => $cardapio['categoria'],
                 'valor' => $cardapio['valor']
             ];
-            $collection[] = $this->entity->fill($itemCollection);
+            $collection[] = (new PedidoItens())->fill($itemCollection);
             $total += $cardapio->valor;
         }
 

@@ -16,6 +16,7 @@ class PedidoGateway implements IPedidoGateway
     protected array $columns = [
         'id',
         'id_cliente',
+        'recebimento',
         'fechamento',
         'pagamento',
         'status'
@@ -72,9 +73,11 @@ class PedidoGateway implements IPedidoGateway
     public function show(int $id): Pedido
     {
         $pedido = $this->repository->show($id);
-        $pedido['itens'] = (new PedidoItensGateway($this->connection, $this->repository))->list('id_pedido', $pedido->id);
-        $pedido['cliente'] = $pedido->id_cliente?(new ClientesGateway($this->connection, $this->repository))->show($pedido->id_cliente):null;
-        $pedido['preparo'] = (new PreparoGateway($this->connection, $this->repository))->list('id_pedido', $pedido->id);
+        if(!empty($pedido)) {
+            $pedido['itens'] = (new PedidoItensGateway($this->connection, $this->repository))->list('id_pedido', $pedido->id);
+            $pedido['cliente'] = $pedido->id_cliente ? (new ClientesGateway($this->connection, $this->repository))->show($pedido->id_cliente) : null;
+            $pedido['preparo'] = (new PreparoGateway($this->connection, $this->repository))->list('id_pedido', $pedido->id);
+        }
 
         return $this->entity->fill($pedido);
     }
@@ -83,9 +86,16 @@ class PedidoGateway implements IPedidoGateway
     {
         $response = [];
         foreach($this->repository->list() as $row){
-            $response[] = $this->entity->fill($row);
+            $response[] = (new Pedido())->fill($row);
         }
 
         return $response;
+    }
+
+    public function pedidos(): array
+    {
+        $status = implode(",",[EnumStatus::PRONTO, EnumStatus::EM_PREPARACAO, EnumStatus::RECEBIDO]);
+        $sql = "SELECT * FROM pedidos WHERE status IN({$status}) ORDER BY recebimento, FIELD(status,{$status})";
+        $this->repository->queryAll($sql);
     }
 }

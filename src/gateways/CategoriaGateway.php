@@ -48,9 +48,11 @@ class CategoriaGateway implements ICategoriaGateway
     public function show(int $id): Categoria
     {
         $categoria = $this->repository->show($id);
-        $itensCardapio = (new CardapioGateway($this->connection, $this->repository))->listByCategoria($id);
-        if(!empty($itensCardapio)) {
-            $categoria['itensCardapio'] = $itensCardapio;
+        if(!empty($categoria)) {
+            $itensCardapio = (new CardapioGateway($this->connection, $this->repository))->listByCategoria($id);
+            if (!empty($itensCardapio)) {
+                $categoria['itensCardapio'] = $itensCardapio;
+            }
         }
         return $this->entity->fill($categoria);
     }
@@ -67,7 +69,7 @@ class CategoriaGateway implements ICategoriaGateway
             if(!empty($itensCardapio)) {
                 $row['itens_cardapio'] = $itensCardapio;
             }
-            $collection[] = $this->entity->fill($row);
+            $collection[] = (new Categoria())->fill($row);
         }
         return $collection;
     }

@@ -11,7 +11,6 @@ interface IClientesUseCase
     public function delete(int $id): Clientes;
     public function show(int $id): Clientes;
     public function list(): array;
-
-    public function showByCpf(string $cpf): array;
+    public function showByCpf(string $cpf): Clientes;
 
 }

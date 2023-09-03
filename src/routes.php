@@ -4,6 +4,7 @@ namespace App;
 
 use App\controllers\CardapioController;
 use App\controllers\CategoriaController;
+use App\controllers\CheckoutController;
 use App\controllers\ClientesController;
 use App\controllers\PedidoController;
 use App\controllers\PedidoItensController;
@@ -14,7 +15,7 @@ use App\external\PdoConnect;
 $json = file_get_contents('php://input');
 $data = json_decode($json, true);
 $routes = [];
-$pdoConnection = new PdoConnect();
+$pdoConnection = (new PdoConnect())->connect();
 $fastFoodApp = new FastFoodApp($pdoConnection);
 
 // Home - Exibe o cardápio
@@ -62,6 +63,12 @@ $routes['/pedido'] = [
     }
 ];
 
+$routes['/pedidos'] = [
+    'GET' => function ($params = null) use ($fastFoodApp) {
+        return $fastFoodApp->query(PedidoController::class, [], 'pedidos');
+    }
+];
+
 $routes['/pedido/{id}'] = [
     'PUT' => function ($id) use ($data, $fastFoodApp) {
         return $fastFoodApp->update(PedidoController::class, $id, $data);
@@ -98,6 +105,28 @@ $routes['/pedido-itens/{id}'] = [
     },
     'GET' => function ($id) use($fastFoodApp) {
         return $fastFoodApp->show(PedidoItensController::class, $id);
+    }
+];
+
+// Checkout
+$routes['/checkout'] = [
+    'POST' => function ($params = null) use ($data, $fastFoodApp) {
+        return $fastFoodApp->create(CheckoutController::class, $data);
+    },
+    'GET' => function ($params = null) use ($fastFoodApp) {
+        return $fastFoodApp->list(CheckoutController::class);
+    }
+];
+
+$routes['/checkout/{id}'] = [
+    'PUT' => function ($id) use ($data, $fastFoodApp) {
+        return $fastFoodApp->update(CheckoutController::class, $id, $data);
+    },
+    'DELETE' => function ($id) use($fastFoodApp) {
+        return $fastFoodApp->delete(CheckoutController::class, $id);
+    },
+    'GET' => function ($id) use($fastFoodApp) {
+        return $fastFoodApp->show(CheckoutController::class, $id);
     }
 ];
 

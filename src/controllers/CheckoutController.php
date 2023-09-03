@@ -7,17 +7,16 @@ use App\adapters\DeleteAdapter;
 use App\adapters\ListAdapter;
 use App\adapters\ShowAdapter;
 use App\adapters\UpdateAdapter;
-use App\interfaces\IPedidoUseCase;
+use App\interfaces\ICheckoutUseCase;
 
-class PedidoController
+class CheckoutController
 {
-    public IPedidoUseCase $useCase;
+    public ICheckoutUseCase $useCase;
 
-    public function __construct(IPedidoUseCase $useCase)
+    public function __construct(ICheckoutUseCase $useCase)
     {
         $this->useCase = $useCase;
     }
-
 
     public function create($request)
     {
@@ -42,16 +41,6 @@ class PedidoController
     public function list()
     {
         return ListAdapter::json($this->useCase->list());
-    }
-
-    public function statusList()
-    {
-        return ListAdapter::json($this->useCase->statusList());
-    }
-
-    public function pedidos()
-    {
-        return ListAdapter::json($this->useCase->pedidos());
     }
 
 

@@ -42,9 +42,13 @@ class ClientesUseCase implements IClientesUseCase
         return $this->gateway->list();
     }
 
-    public function showByCpf(string $cpf): array
+    public function showByCpf(string $cpf): Clientes
     {
-        return $this->gateway->list('cpf', $cpf);
+        $cliente = $this->gateway->list('cpf', $cpf);
+        if(!empty($cliente)){
+            return $cliente[0];
+        }
+        return new Clientes();
 
     }
 }
