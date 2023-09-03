@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: tech-challenge
+spec:
+  selector:
+    matchLabels:
+      app: api
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: tech-challenge/api
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+        env:
+          - name: DB_USERNAME
+            value: user
+          - name: DB_PASSWORD
+            value: password
+          - name: DB_DSN
+            value: mysql:host=database-service;port=3306;dbname=FIAP_CHALLENGE;
+        livenessProbe:
+          httpGet:
+            path: /healthcheck
+            port: 80
+          periodSeconds: 15
+          failureThreshold: 3
+          successThreshold: 1
+          initialDelaySeconds: 10
+          timeoutSeconds: 10
+        volumeMounts:
+        - name: api-persistent-storage
+          mountPath: /var/www/volume
+      volumes:
+      - name: api-persistent-storage
+        persistentVolumeClaim:
+          claimName: api-pv-claim
