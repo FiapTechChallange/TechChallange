@@ -13,37 +13,24 @@ Podem ser visualizados no miro através do link: https://miro.com/welcomeonboard
 |----------------|-------|
 | Web            | 8888  |
 | DB             | 3307  |
-| PHPMyadmin     | 8080  |
 
-Os dados para acesso a base de dados no PHPMyadmin são:
+Os dados para acesso a base de dados são:
 
     server: bd
     username: root
     senha: password
 
-Para criação dos container, execute o seguinte comando dentro do diretorio em que esta o arquivo 'docker-compose.yml' que esta na raiz do projeto:
-
-    docker compose -f docker-compose.yml up -d
-
 ## Kubernetes
-Iniciar cluster: <code>make start-kubernetes</code>
+Iniciar cluster: <code>make start-kubernetes</code><br>
+Criar base com seus respectivos volumes: <code>make create-db</code><br>
 Encerrar cluster: <code>make delete-namespace</code>
 
+Para sistemas windows o make deve ser instalado. O comando para instação através do chocolatey é: <code>choco install make</code>
 
 # API
 
-Você pode baixar um arquivo com as requisições já criadas(Fiap.postman_collection_202307062235) na raiz do repositorio. 
+Você pode baixar um arquivo com as requisições já criadas(Fiap.postman_collection.json) na raiz do repositorio. 
 
-A pasta "Fluxo" contém as requisições de forma a exibir todos os itens solicitados para fase 1 seguindo a respectiva ordem:
-
-* Cadastro do Cliente 
-* Identificação do Cliente via CPF
-* Criar produto 
-* Editar produto 
-* remover produto
-* Buscar produtos por categoria
-* Fake checkout, apenas enviar os produtos escolhidos para a fila
-* Listar os pedidos
+A pasta "Fluxo" contém as requisições de forma a exibir todos os itens solicitados.
 
 OBS: Esse arquivo foi feito utilizando o postman
-
