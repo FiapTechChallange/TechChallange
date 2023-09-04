@@ -40,7 +40,7 @@ class CheckoutGateway implements ICheckoutGateway
         $response = $this->repository->create($data);
         (new PedidoGateway($this->connection, $this->repository))->update(
             $data['id_pedido'],
-            ['status' => EnumStatus::AGUARDANDO_PAGAMENTO->name]
+            ['status' => EnumStatus::AGUARDANDO_PAGTO->name]
         );
 
         return $this->entity->fill($response);
