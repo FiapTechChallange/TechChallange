@@ -883,11 +883,11 @@
 				{
 					"name": "Pedido em preparacao",
 					"request": {
-						"method": "PUT",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"status\": \"EM_PREPARACAO\"\r\n}",
+							"raw": "{\r\n    \"id_pedido\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -895,7 +895,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1:8888/pedido/1",
+							"raw": "127.0.0.1:8888/preparo",
 							"host": [
 								"127",
 								"0",
@@ -904,8 +904,7 @@
 							],
 							"port": "8888",
 							"path": [
-								"pedido",
-								"1"
+								"preparo"
 							]
 						}
 					},
@@ -940,7 +939,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"status\": \"PRONTO\"\r\n}",
+							"raw": "{\r\n    \"termino\": \"2023-09-03 20:00:00\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -948,7 +947,7 @@
 							}
 						},
 						"url": {
-							"raw": "127.0.0.1:8888/pedido/1",
+							"raw": "127.0.0.1:8888/preparo/1",
 							"host": [
 								"127",
 								"0",
@@ -957,7 +956,7 @@
 							],
 							"port": "8888",
 							"path": [
-								"pedido",
+								"preparo",
 								"1"
 							]
 						}

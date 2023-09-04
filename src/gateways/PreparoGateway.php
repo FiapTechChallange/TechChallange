@@ -35,6 +35,7 @@ class PreparoGateway implements IPreparoGateway
 
     public function create(array $data): Preparo
     {
+        $data['inicio'] = date('Y-m-d H:i:s');
         $response = $this->repository->create($data);
         (new PedidoGateway($this->connection, $this->repository))->update($data['id_pedido'], ['status' => EnumStatus::EM_PREPARACAO]);
 
