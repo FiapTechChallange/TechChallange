@@ -3,7 +3,7 @@ name: Deploy to ECR
 on:
  
   push:
-    branches: [new-infra]
+    branches: ["master"]
 
 jobs:
   
