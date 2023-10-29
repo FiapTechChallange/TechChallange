@@ -196,6 +196,13 @@ $routes['/categoria/{id}'] = [
     }
 ];
 
+// Healthcheck
+$routes['/healthcheck'] = [
+    'GET' => function () {
+        return json_encode(['status' => 'ok']);
+    }
+];
+
 
 return $routes;
 
