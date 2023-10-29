@@ -3,10 +3,10 @@
 namespace App\gateways;
 
 use App\entities\Checkout;
+use App\external\base\IRepository;
 use App\interfaces\ICheckoutGateway;
 use App\types\EnumCheckout;
 use App\types\EnumStatus;
-use App\interfaces\IPdoRepository;
 
 
 class CheckoutGateway implements ICheckoutGateway
@@ -26,7 +26,7 @@ class CheckoutGateway implements ICheckoutGateway
 
     protected $connection;
 
-    public function __construct($connection, IPdoRepository $repository)
+    public function __construct($connection, IRepository $repository)
     {
         $this->repository = $repository;
         $this->repository->config($connection, $this->table, $this->columns);

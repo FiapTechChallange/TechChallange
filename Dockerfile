@@ -8,6 +8,9 @@ RUN apt-get update && \
     curl \
     wget
 
+RUN pecl install mongodb && docker-php-ext-enable mongodb
+RUN echo "extension=mongodb.so" >> /usr/local/etc/php/php.ini
+
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 RUN a2enmod rewrite

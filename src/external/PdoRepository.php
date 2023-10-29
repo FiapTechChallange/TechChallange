@@ -2,25 +2,28 @@
 
 namespace App\external;
 
-use App\interfaces\IPdoRepository;
 use PDO;
 
-class PdoRepository implements IPdoRepository
+class PdoRepository
 {
     private string $table;
 
     private array $columns;
 
-    private $connection;
+    private PdoConnection $connection;
 
-    /**
-     * @param $connection
-     * @param $table
-     * @param $columns
-     */
-    public function config($connection, $table, $columns)
+    public function __construct(PdoConnection $connection)
     {
         $this->connection = $connection;
+    }
+
+    /**
+     * @param $table
+     * @param $columns
+     * @return void
+     */
+    public function config($table, $columns)
+    {
         $this->table = $table;
         $this->columns = $columns;
     }

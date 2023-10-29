@@ -1,17 +1,10 @@
 <?php
 namespace App\api;
 
-use App\external\PdoRepository;
+use App\controllers\base\ControllerBuilder;
 
-class FastFoodApp
+class FastFoodApp extends ControllerBuilder
 {
-    private array $controllers = [];
-    private $connection;
-
-    public function __construct($connection){
-        $this->connection = $connection;
-    }
-
     public function create($controller, $request)
     {
         return ($this->buildControllers($controller))->create($request);
@@ -40,25 +33,6 @@ class FastFoodApp
     public function query($controller, $params, $method)
     {
         return ($this->buildControllers($controller))->$method($params);
-    }
-
-    public function buildControllers($controller)
-    {
-        $parts = preg_split('/(?=[A-Z])/',array_reverse(explode("\\", $controller))[0]);
-        array_pop($parts);
-
-        $name = rtrim(implode("",$parts),"\\");
-
-        if(!array_key_exists($controller, $this->controllers)){
-            $repository = new PdoRepository();
-            $gateway = new ('\App\gateways\\'.$name.'Gateway')($this->connection, $repository);
-            $useCase = new ('\App\usecases\\'.$name.'UseCase')($gateway);
-
-            $this->controllers[$controller] = new $controller($useCase);
-        }
-
-        return $this->controllers[$controller];
-        
     }
 
 }

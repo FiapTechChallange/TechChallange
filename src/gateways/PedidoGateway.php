@@ -2,14 +2,13 @@
 
 namespace App\gateways;
 
-use App\types\EnumStatus;
+use App\api\DBGateway;
 use App\entities\Pedido;
-use App\interfaces\IPdoRepository;
 use App\interfaces\IPedidoGateway;
+use App\types\EnumStatus;
 
-class PedidoGateway implements IPedidoGateway
+class PedidoGateway extends DBGateway implements IPedidoGateway
 {
-
     protected Pedido $entity;
 
     protected String $table = 'pedido';
@@ -22,16 +21,10 @@ class PedidoGateway implements IPedidoGateway
         'status'
     ];
 
-    protected $repository;
-
-    protected $connection;
-
-    public function __construct($connection, IPdoRepository $repository)
+    public function __construct()
     {
-        $this->repository = $repository;
-        $this->repository->config($connection, $this->table, $this->columns);
+        parent::__construct();
         $this->entity = new Pedido();
-        $this->connection = $connection;
     }
 
 
@@ -46,7 +39,7 @@ class PedidoGateway implements IPedidoGateway
             }
         }
 
-        return $this->entity->fill($this->repository->create($data));
+        return $this->entity->fill($this->mongoRepository->create($data));
     }
 
     public function update(int $id, array $data): Pedido

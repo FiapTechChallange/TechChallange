@@ -3,8 +3,8 @@
 namespace App\gateways;
 
 use App\entities\Clientes;
+use App\external\base\IRepository;
 use App\interfaces\IClientesGateway;
-use App\interfaces\IPdoRepository;
 
 class ClientesGateway implements IClientesGateway
 {
@@ -23,7 +23,7 @@ class ClientesGateway implements IClientesGateway
 
     protected $connection;
 
-    public function __construct($connection, IPdoRepository $repository)
+    public function __construct($connection, IRepository $repository)
     {
         $this->repository = $repository;
         $this->repository->config($connection, $this->table, $this->columns);

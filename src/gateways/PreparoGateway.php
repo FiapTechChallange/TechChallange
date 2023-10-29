@@ -2,10 +2,10 @@
 
 namespace App\gateways;
 
-use App\types\EnumStatus;
 use App\entities\Preparo;
-use App\interfaces\IPdoRepository;
+use App\external\base\IRepository;
 use App\interfaces\IPreparoGateway;
+use App\types\EnumStatus;
 
 class PreparoGateway implements IPreparoGateway
 {
@@ -24,7 +24,7 @@ class PreparoGateway implements IPreparoGateway
 
     protected $connection;
 
-    public function __construct($connection, IPdoRepository $repository)
+    public function __construct($connection, IRepository $repository)
     {
         $this->repository = $repository;
         $this->repository->config($connection, $this->table, $this->columns);

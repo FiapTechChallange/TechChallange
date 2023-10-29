@@ -15,8 +15,8 @@ use App\external\PdoConnect;
 $json = file_get_contents('php://input');
 $data = json_decode($json, true);
 $routes = [];
-$pdoConnection = (new PdoConnect())->connect();
-$fastFoodApp = new FastFoodApp($pdoConnection);
+
+$fastFoodApp = new FastFoodApp();
 
 // Home - Exibe o cardápio
 $routes['/'] = [

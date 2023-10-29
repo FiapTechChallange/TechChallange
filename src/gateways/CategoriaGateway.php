@@ -2,10 +2,9 @@
 
 namespace App\gateways;
 
-use App\entities\Cardapio;
 use App\entities\Categoria;
+use App\external\base\IRepository;
 use App\interfaces\ICategoriaGateway;
-use App\interfaces\IPdoRepository;
 
 class CategoriaGateway implements ICategoriaGateway
 {
@@ -21,7 +20,7 @@ class CategoriaGateway implements ICategoriaGateway
 
     protected $connection;
 
-    public function __construct($connection, IPdoRepository $repository)
+    public function __construct($connection, IRepository $repository)
     {
         $this->repository = $repository;
         $this->repository->config($connection, $this->table, $this->columns);

@@ -3,7 +3,7 @@
 namespace App\gateways;
 
 use App\entities\PedidoItens;
-use App\interfaces\IPdoRepository;
+use App\external\base\IRepository;
 use App\interfaces\IPedidoItensGateway;
 
 class PedidoItensGateway implements IPedidoItensGateway
@@ -23,7 +23,7 @@ class PedidoItensGateway implements IPedidoItensGateway
 
     protected $connection;
 
-    public function __construct($connection, IPdoRepository $repository)
+    public function __construct($connection, IRepository $repository)
     {
         $this->repository = $repository;
         $this->repository->config($connection, $this->table, $this->columns);
