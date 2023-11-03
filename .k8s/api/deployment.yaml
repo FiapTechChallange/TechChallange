@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
       - name: api
-        image: tech-challenge/api
-        imagePullPolicy: Never
+        image: 853368316629.dkr.ecr.ap-east-1.amazonaws.com/api:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
         env:
@@ -35,10 +35,3 @@ spec:
           successThreshold: 1
           initialDelaySeconds: 10
           timeoutSeconds: 10
-        volumeMounts:
-        - name: api-persistent-storage
-          mountPath: /var/www/volume
-      volumes:
-      - name: api-persistent-storage
-        persistentVolumeClaim:
-          claimName: api-pv-claim
