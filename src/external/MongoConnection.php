@@ -11,7 +11,7 @@ class MongoConnection implements Connection
 
     private static ?self $instance = null;
 
-    private function __construct($uriConnection)
+    private function __construct(string $uriConnection)
     {
         return new Manager($uriConnection);
     }

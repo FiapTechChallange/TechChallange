@@ -87,68 +87,9 @@ $routes['/pedido-status'] = [
     }
 ];
 
-$routes['/pedido-itens'] = [
-    'POST' => function ($params = null) use ($data, $fastFoodApp) {
-        return $fastFoodApp->create(PedidoItensController::class, $data);
-    },
-    'GET' => function ($params = null) use($fastFoodApp) {
-        return $fastFoodApp->list(PedidoItensController::class);
-    }
-];
-
-$routes['/pedido-itens/{id}'] = [
-    'PUT' => function ($id) use ($data, $fastFoodApp) {
-        return $fastFoodApp->update(PedidoItensController::class, $id, $data);
-    },
-    'DELETE' => function ($id) use($fastFoodApp) {
-        return $fastFoodApp->delete(PedidoItensController::class, $id);
-    },
-    'GET' => function ($id) use($fastFoodApp) {
-        return $fastFoodApp->show(PedidoItensController::class, $id);
-    }
-];
-
-// Checkout
-$routes['/checkout'] = [
-    'POST' => function ($params = null) use ($data, $fastFoodApp) {
-        return $fastFoodApp->create(CheckoutController::class, $data);
-    },
-    'GET' => function ($params = null) use ($fastFoodApp) {
-        return $fastFoodApp->list(CheckoutController::class);
-    }
-];
-
-$routes['/checkout/{id}'] = [
-    'PUT' => function ($id) use ($data, $fastFoodApp) {
-        return $fastFoodApp->update(CheckoutController::class, $id, $data);
-    },
-    'DELETE' => function ($id) use($fastFoodApp) {
-        return $fastFoodApp->delete(CheckoutController::class, $id);
-    },
-    'GET' => function ($id) use($fastFoodApp) {
-        return $fastFoodApp->show(CheckoutController::class, $id);
-    }
-];
-
-// Preparo
-$routes['/preparo'] = [
-    'POST' => function ($params = null) use ($data, $fastFoodApp) {
-        return $fastFoodApp->create(PreparoController::class, $data);
-    },
-    'GET' => function ($params = null) use ($fastFoodApp) {
-        return $fastFoodApp->list(PreparoController::class);
-    }
-];
-
-$routes['/preparo/{id}'] = [
-    'PUT' => function ($id) use ($data, $fastFoodApp) {
-        return $fastFoodApp->update(PreparoController::class, $id, $data);
-    },
-    'DELETE' => function ($id) use($fastFoodApp) {
-        return $fastFoodApp->delete(PreparoController::class, $id);
-    },
-    'GET' => function ($id) use($fastFoodApp) {
-        return $fastFoodApp->show(PreparoController::class, $id);
+$routes['/pedido-status/{status}'] = [
+    'GET' => function ($status) use($fastFoodApp) {
+        return $fastFoodApp->query(PedidoController::class, ['status' => $status], 'listByStatus');
     }
 ];
 
@@ -175,24 +116,15 @@ $routes['/cardapio/{id}'] = [
 ];
 
 // Categoria
-$routes['/categoria'] = [
-    'POST' => function ($params = null) use ($data, $fastFoodApp) {
-        return $fastFoodApp->create(CategoriaController::class, $data);
-    },
+$routes['/categorias-cardapio'] = [
     'GET' => function ($params = null) use($fastFoodApp) {
-        return $fastFoodApp->list(CategoriaController::class);
+        return $fastFoodApp->query(CardapioController::class, [], 'categoriasList');
     }
 ];
 
-$routes['/categoria/{id}'] = [
-    'PUT' => function ($id) use ($data, $fastFoodApp) {
-        return $fastFoodApp->update(CategoriaController::class, $id, $data);
-    },
-    'DELETE' => function ($id) use($fastFoodApp) {
-        return $fastFoodApp->delete(CategoriaController::class, $id);
-    },
-    'GET' => function ($id) use($fastFoodApp){
-        return $fastFoodApp->show(CategoriaController::class, $id);
+$routes['/categorias-cardapio/{categoria}'] = [
+    'GET' => function ($categoria) use($fastFoodApp) {
+        return $fastFoodApp->query(CardapioController::class, ['categoria' => $categoria], 'listByCategoria');
     }
 ];
 

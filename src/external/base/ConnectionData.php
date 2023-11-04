@@ -29,7 +29,7 @@ abstract class ConnectionData
 
     public function getMongoDatabase(): string
     {
-        // TODO: Implement getDatabase() method.
+        return $_ENV['MONGO_DATABASE'];
     }
 
     public function getPdoPort(): string
@@ -39,11 +39,36 @@ abstract class ConnectionData
 
     public function getMongoPort(): string
     {
-
+        return $_ENV['MONGO_PORT'];
     }
 
     public function getMongoHost():string
     {
+        return $_ENV['MONGO_HOST'];
+    }
 
+    public function getMongoUsername():string
+    {
+        return $_ENV['MONGO_USERNAME'];
+    }
+
+    public function getMongoPassword():string
+    {
+        return $_ENV['MONGO_PASSWORD'];
+    }
+
+    public function getRedisHost():string
+    {
+        return $_ENV['REDIS_HOST'];
+    }
+
+    public function getRedisPort():string
+    {
+        return $_ENV['REDIS_PORT'];
+    }
+
+    public function getRedisDatabase():string
+    {
+        return $_ENV['REDIS_DATABASE'];
     }
 }

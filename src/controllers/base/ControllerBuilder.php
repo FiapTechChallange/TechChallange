@@ -6,7 +6,7 @@ abstract class ControllerBuilder
 {
     protected array $controllers = [];
 
-    public function buildControllers($controller)
+    protected function buildControllers($controller)
     {
         $parts = preg_split('/(?=[A-Z])/',array_reverse(explode("\\", $controller))[0]);
         array_pop($parts);

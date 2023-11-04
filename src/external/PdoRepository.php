@@ -48,7 +48,7 @@ class PdoRepository
         return $data;
     }
 
-    public function update(int $id, $data)
+    public function update(string $id, $data)
     {
 
         $updateBindings = implode(',', array_map(function ($field) {
@@ -69,7 +69,7 @@ class PdoRepository
         return $data;
     }
 
-    public function delete(int $id)
+    public function delete(string $id)
     {
         $sql = "DELETE FROM {$this->table} WHERE id=:id";
         $stmt = $this->connection->prepare($sql);
@@ -80,7 +80,7 @@ class PdoRepository
         return [];
     }
 
-    public function show(int $id)
+    public function show(string $id)
     {
 
         $sql = "SELECT * FROM {$this->table} WHERE id=:id";

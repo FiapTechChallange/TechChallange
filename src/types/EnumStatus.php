@@ -9,8 +9,9 @@ enum EnumStatus: string
     case INCIADO = 'inciado';
     case RECEBIDO = 'recebido';
     case EM_PREPARACAO = 'em preparação';
-    case PRONTO = 'pronto';
+    case ENTREGUE = 'entregue';
     case FINALIZADO = 'finalizado';
+    case AGUARDANDO_PREPARO = 'aguardando preparo';
 
     public static function getList(): array
     {

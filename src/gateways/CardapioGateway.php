@@ -2,34 +2,29 @@
 
 namespace App\gateways;
 
+use App\api\DBGateway;
 use App\entities\Cardapio;
-use App\external\base\IRepository;
 use App\interfaces\ICardapioGateway;
 
 
-class CardapioGateway implements ICardapioGateway
+class CardapioGateway extends DBGateway implements ICardapioGateway
 {
 
     protected Cardapio $entity;
-    protected String $table = 'cardapio';
-    protected array $columns = [
-        'id',
+    protected String $namespace = 'cardapio';
+    protected string $pKey = '_id';
+    protected array $fields = [
+        '_id',
         'nome',
         'descricao',
-        'id_categoria',
+        'categoria',
         'valor'
     ];
 
-    protected $repository;
-
-    protected $connection;
-
-    public function __construct($connection, IRepository $repository)
+    public function __construct()
     {
-        $this->repository = $repository;
-        $this->repository->config($connection, $this->table, $this->columns);
+        parent::__construct();
         $this->entity = new Cardapio();
-        $this->connection = $connection;
     }
 
 
@@ -38,24 +33,19 @@ class CardapioGateway implements ICardapioGateway
         return $this->entity->fill($this->repository->create($data));
     }
 
-    public function update(int $id, array $data): Cardapio
+    public function update(string $id, array $data): Cardapio
     {
         return $this->entity->fill($this->repository->update($id, $data));
     }
 
-    public function delete(int $id): Cardapio
+    public function delete(string $id): Cardapio
     {
         return $this->entity->fill($this->repository->delete($id));
     }
 
-    public function show(int $id): Cardapio
+    public function show(string $id): Cardapio
     {
-        $cardapio = $this->repository->show($id);
-        if(!empty($cardapio)) {
-            $categoria = (new CategoriaGateway($this->connection, $this->repository))->show($cardapio['id_categoria']);
-            $cardapio['categoria'] = $categoria->nome;
-        }
-        return $this->entity->fill($cardapio);
+        return $this->entity->fill($this->repository->show($id));
     }
 
     public function list(): array
@@ -68,8 +58,21 @@ class CardapioGateway implements ICardapioGateway
         return $response;
     }
 
-    public function listByCategoria(int $id_categoria)
+    public function listByCategoria(string $categoria):array
     {
-        return $this->repository->list('id_categoria', $id_categoria);
+        return $this->mongoRepository->query(['categoria' => ['&eq' => strtoupper($categoria)]]);
+    }
+
+    public function listByIdItems(array $idItems): array
+    {
+        $data = $this->redisRepository->listByIdItems($idItems);
+        if(empty($data)){
+            foreach($idItems as $idItem){
+                $item = $this->mongoRepository->query(['_id' => ['&eq' => $idItem]]);
+                $this->redisRepository->create($item);
+                $data[] = $item;
+            }
+        }
+        return $data;
     }
 }

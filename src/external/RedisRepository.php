@@ -7,6 +7,10 @@ class RedisRepository
 
     private RedisConnection $connection;
 
+    private string $namespace;
+
+    private string $pKey;
+
     /**
      * @param RedisConnection $connection
      */
@@ -15,41 +19,60 @@ class RedisRepository
         $this->connection = $connection;
     }
 
+    public function setNamespace(string $namespace, string $db = ""):void
+    {
+        $this->namespace = $namespace;
+    }
+
+    /**
+     * @param string $pKey
+     */
+    public function setPKey(string $pKey): void
+    {
+        $this->pKey = $pKey;
+    }
 
     public function create(array $data)
     {
-        return $this->connection->create();
+            return $this->connection->hMSet("{$this->namesapce}:{$data[$this->pKey]}", $data);
     }
 
-    public function update(int $id, array $data)
+    public function update(string $id, array $data)
     {
-        // TODO: Implement update() method.
+        $hash = $this->connection->hGetAll("{$this->namespace}:{$id}");
+
+        $toSave = [];
+        foreach($data as $key => $value){
+            if(array_key_exists($key, $hash) && $hash[$key] != $value){
+                $toSave[$key] = $value;
+            }
+        }
+
+        return $this->connection->hMSet("{$this->namesapce}:{$data[$this->pKey]}", $toSave);
     }
 
-    public function delete(int $id)
+    public function delete(string $id)
     {
-        // TODO: Implement delete() method.
+        return $this->connection->mhel("{$this->namesapce}:{$id}");
     }
 
-    public function show(int $id)
+    public function show(string $id)
     {
-        // TODO: Implement show() method.
+        return $this->connection->hGetAll("{$this->namesapce}:{$id}");
     }
 
-    public function list()
+    public function list(): array
     {
-        // TODO: Implement list() method.
+        $ids = $this->connection->smembers($this->namespace);
+        return $this->listByIdItems($ids);
     }
 
-    public function queryAll(string $sql, array $bindins = [])
+    public function listByIdItems(array $idItems): array
     {
-        // TODO: Implement queryAll() method.
+        $data = [];
+        foreach($idItems as $id){
+            $data[$id] = $this->connection->hMGet("{$this->namesapce}:{$id}");
+        }
+        return $data;
     }
-
-    public function query(string $sql, array $bindins = [])
-    {
-        // TODO: Implement query() method.
-    }
-
-
 }
