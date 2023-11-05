@@ -1,15 +1,15 @@
 name: Deploy to ECR
 
 on:
- 
   push:
-    branches: ["master"]
+    branches:
+      - main
 
 jobs:
   
   build:
     
-    name: Build Image and Push to ECR
+    name: Pull Image and Deploy on EKS
     runs-on: ubuntu-latest
    
     steps:
@@ -22,16 +22,36 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-2
+        aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Login to Amazon ECR
+      id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
 
-    - name: Build, tag, and push image to Amazon ECR
+    - name: Pull and deploy image
       env:
-        ECR_REGISTRY: 853368316629.dkr.ecr.us-east-2.amazonaws.com
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: api
         IMAGE_TAG: latest
+
+    - name: Install and configure kubectl
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+        curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
+            --progress-bar \
+            --location \
+            --remote-name
+        chmod +x kubectl
+        sudo mv kubectl /usr/local/bin/
+        echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
+
+    - name: Deploy
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: api
+        MAGE_TAG: latest
+      run: |
+        export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
+        export IMAGE_TAG=latest
+        export KUBECONFIG=kubeconfig.yaml
+        kubectl apply -f .k8s/api/
