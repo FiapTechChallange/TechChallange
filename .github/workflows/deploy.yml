@@ -1,9 +1,11 @@
-name: Deploy to ECR
+name: Deploy to EKS
 
 on:
-  push:
-    branches:
+  pull_request:
+    branches: 
       - main
+    types:
+      - closed
 
 jobs:
   
