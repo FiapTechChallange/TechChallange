@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: 853368316629.dkr.ecr.ap-east-1.amazonaws.com/api:latest
+        image: 245067624636.dkr.ecr.ap-east-1.amazonaws.com/api:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
