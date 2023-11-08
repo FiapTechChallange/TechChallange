@@ -22,17 +22,17 @@ class ClientesUseCase implements IClientesUseCase
         return $this->gateway->create($request);
     }
 
-    public function update(int $id, array $request): Clientes
+    public function update(string $id, array $request): Clientes
     {
         return $this->gateway->update($id, $request);
     }
 
-    public function delete(int $id): Clientes
+    public function delete(string $id): Clientes
     {
         return $this->gateway->delete($id);
     }
 
-    public function show(int $id): Clientes
+    public function show(string $id): Clientes
     {
         return $this->gateway->show($id);
     }
@@ -44,9 +44,9 @@ class ClientesUseCase implements IClientesUseCase
 
     public function showByCpf(string $cpf): Clientes
     {
-        $cliente = $this->gateway->list('cpf', $cpf);
+        $cliente = $this->gateway->show($cpf);
         if(!empty($cliente)){
-            return $cliente[0];
+            return $cliente;
         }
         return new Clientes();
 

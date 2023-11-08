@@ -4,9 +4,9 @@ namespace App\entities;
 
 class Entity
 {
-    public function fill(array $data)
+    public function fill($data)
     {
-        foreach($data as $att => $value){
+        foreach((array)$data as $att => $value){
             $this->$att = $value;
         }
 

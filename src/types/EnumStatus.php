@@ -6,11 +6,12 @@ namespace App\types;
 enum EnumStatus: string
 {
     case AGUARDANDO_PAGTO = 'aguardando pagamento';
-    case INCIADO = 'inciado';
+    case INICIADO = 'iniciado';
     case RECEBIDO = 'recebido';
     case EM_PREPARACAO = 'em preparação';
-    case PRONTO = 'pronto';
+    case ENTREGUE = 'entregue';
     case FINALIZADO = 'finalizado';
+    case AGUARDANDO_PREPARO = 'aguardando preparo';
 
     public static function getList(): array
     {

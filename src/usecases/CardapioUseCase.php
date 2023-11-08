@@ -5,6 +5,7 @@ namespace App\usecases;
 use App\interfaces\ICardapioUseCase;
 use App\entities\Cardapio;
 use App\interfaces\ICardapioGateway;
+use App\types\EnumCategorias;
 
 class CardapioUseCase implements ICardapioUseCase
 {
@@ -22,17 +23,17 @@ class CardapioUseCase implements ICardapioUseCase
         return $this->gateway->create($request);
     }
 
-    public function update(int $id, array $request): Cardapio
+    public function update(string $id, array $request): Cardapio
     {
         return $this->gateway->update($id, $request);
     }
 
-    public function delete(int $id): Cardapio
+    public function delete(string $id): Cardapio
     {
         return $this->gateway->delete($id);
     }
 
-    public function show(int $id): Cardapio
+    public function show(string $id): Cardapio
     {
         return $this->gateway->show($id);
     }
@@ -40,5 +41,15 @@ class CardapioUseCase implements ICardapioUseCase
     public function list(): array
     {
         return $this->gateway->list();
+    }
+
+    public function categoriasList(): array
+    {
+        return EnumCategorias::getList();
+    }
+
+    public function listByCategoria(string $categoria): array
+    {
+        return $this->gateway->listByCategoria($categoria);
     }
 }

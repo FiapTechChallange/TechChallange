@@ -2,33 +2,30 @@
 
 namespace App\gateways;
 
+use App\api\DBGateway;
 use App\entities\Clientes;
 use App\interfaces\IClientesGateway;
-use App\interfaces\IPdoRepository;
 
-class ClientesGateway implements IClientesGateway
+class ClientesGateway extends DBGateway implements IClientesGateway
 {
 
     protected Clientes $entity;
 
-    protected String $table = 'clientes';
-    protected array $columns = [
+
+    protected string $namespace = 'clientes';
+
+    protected string $pKey = 'cpf';
+    protected array $fields = [
         'cpf',
         'nome',
         'email',
         'telefone'
     ];
 
-    protected $repository;
-
-    protected $connection;
-
-    public function __construct($connection, IPdoRepository $repository)
+    public function __construct()
     {
-        $this->repository = $repository;
-        $this->repository->config($connection, $this->table, $this->columns);
+        parent::__construct();
         $this->entity = new Clientes();
-        $this->connection = $connection;
     }
 
 
@@ -37,25 +34,25 @@ class ClientesGateway implements IClientesGateway
         return $this->entity->fill($this->repository->create($data));
     }
 
-    public function update(int $id, array $data): Clientes
+    public function update(string $id, array $data): Clientes
     {
         return $this->entity->fill($this->repository->update($id, $data));
     }
 
-    public function delete(int $id): Clientes
+    public function delete(string $id): Clientes
     {
         return $this->entity->fill($this->repository->delete($id));
     }
 
-    public function show(int $id): Clientes
+    public function show(string $id): Clientes
     {
         return $this->entity->fill($this->repository->show($id));
     }
 
-    public function list($column = null, $value = null): array
+    public function list(): array
     {
         $response = [];
-        foreach($this->repository->list($column, $value) as $row){
+        foreach($this->repository->list() as $row){
             $response[] = (new Clientes())->fill($row);
         }
         return $response;

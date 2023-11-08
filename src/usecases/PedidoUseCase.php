@@ -23,17 +23,17 @@ class PedidoUseCase implements IPedidoUseCase
         return $this->gateway->create($request);
     }
 
-    public function update(int $id, array $request): Pedido
+    public function update(string $id, array $request): Pedido
     {
         return $this->gateway->update($id, $request);
     }
 
-    public function delete(int $id): Pedido
+    public function delete(string $id): Pedido
     {
         return $this->gateway->delete($id);
     }
 
-    public function show(int $id): Pedido
+    public function show(string $id): Pedido
     {
         return $this->gateway->show($id);
     }
@@ -51,5 +51,10 @@ class PedidoUseCase implements IPedidoUseCase
     public function pedidos(): array
     {
         return $this->gateway->pedidos();
+    }
+
+    public function listByStatus(string $status): array
+    {
+        return $this->gateway->listByStatus($status);
     }
 }

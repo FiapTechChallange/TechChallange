@@ -8,6 +8,7 @@ use App\adapters\ListAdapter;
 use App\adapters\ShowAdapter;
 use App\adapters\UpdateAdapter;
 use App\interfaces\ICardapioUseCase;
+use App\types\EnumCategorias;
 
 class CardapioController
 {
@@ -42,6 +43,17 @@ class CardapioController
     public function list()
     {
         return ListAdapter::json($this->useCase->list());
+    }
+
+
+    public function categoriasList()
+    {
+        return ListAdapter::json($this->useCase->statusList());
+    }
+
+    public function listByCategoria($categoria)
+    {
+        return ListAdapter::json($this->useCase->listByCategoria($categoria));
     }
 
 

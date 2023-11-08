@@ -12,23 +12,19 @@ services:
     environment:
       - APACHE_RUN_USER=#1000
       - APACHE_RUN_GROUP=#1000
-  
-  db:
-    image: mysql:latest
-    command: 
-      - --default-authentication-plugin=mysql_native_password
-    restart: always
+
+  mongodb:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_DATABASE=${MONGO_DATABASE}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
     volumes:
-      - ./tech-challange.sql:/docker-entrypoint-initdb.d/tech-challange.sql
+        - ./.docker/mongodb:/docker-entrypoint-initdb.d/.docker/mongodb
     ports:
-      - "3307:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-  
-  phpmyadmin:
-    image: phpmyadmin
-    restart: always
+      - "27017:27017"
+
+  redis:
+    image: redis:latest
     ports:
-      - 8080:80
-    environment:
-      - PMA_ARBITRARY=1
+      - "6379:6379"

@@ -6,9 +6,15 @@ RUN apt-get update && \
     unzip \
     vim \
     curl \
-    wget
+    wget \
+    libcurl4-openssl-dev pkg-config libssl-dev
 
-RUN docker-php-ext-install mysqli pdo pdo_mysql
+RUN pecl install mongodb && docker-php-ext-enable mongodb
+RUN echo "extension=mongodb.so" >> /usr/local/etc/php/php.ini
+
+RUN pecl install redis && docker-php-ext-enable redis
+
+##RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 RUN a2enmod rewrite
 
