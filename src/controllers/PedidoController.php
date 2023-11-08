@@ -54,5 +54,10 @@ class PedidoController
         return ListAdapter::json($this->useCase->pedidos());
     }
 
+    public function listByStatus($status)
+    {
+        return ListAdapter::json($this->useCase->listByStatus($status));
+    }
+
 
 }

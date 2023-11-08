@@ -16,4 +16,13 @@ enum EnumCheckout: string
             array_column(self::cases(), 'value')
         );
     }
+
+    public function pedidoStatus()
+    {
+        return match($this) {
+            EnumCheckout::INICIADO => EnumStatus::AGUARDANDO_PAGTO,
+            EnumCheckout::APROVADO => EnumStatus::AGUARDANDO_PREPARO,
+            EnumCheckout::RECUSADO => EnumStatus::FINALIZADO
+        };
+    }
 }

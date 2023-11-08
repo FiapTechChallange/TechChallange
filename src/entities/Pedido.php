@@ -6,8 +6,8 @@ namespace App\entities;
 class Pedido extends Entity
 {
 
-    public int $id;
-    public ?int $id_cliente;
+    public string $id;
+    public ?string $id_cliente;
 
     public DateTime|string $recebimento;
     public DateTime|string|null $fechamento;
